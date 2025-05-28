@@ -1,4 +1,6 @@
-const Product = require('../models/product');
+// File: controllers/productController.js
+
+const Product = require('../models/product'); // Make sure this path to your Product Mongoose model is correct
 
 // Fetch all products
 const getAllProducts = async (req, res) => {
@@ -6,13 +8,19 @@ const getAllProducts = async (req, res) => {
     const products = await Product.find();
     res.json({ success: true, data: products });
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Failed to fetch products' });
+    console.error("Error fetching all products:", err);
+    res.status(500).json({ success: false, message: 'Failed to fetch products', error: err.message });
   }
 };
 
 // Add a new product
 const createProduct = async (req, res) => {
   const { name, description, price, image, category } = req.body;
+
+  // Basic validation (you might want more robust validation)
+  if (!name || !price || !description || !image || !category) {
+    return res.status(400).json({ success: false, message: "All product fields are required." });
+  }
 
   try {
     const newProduct = new Product({
@@ -24,11 +32,14 @@ const createProduct = async (req, res) => {
     });
 
     await newProduct.save();
-    res.json({ success: true, message: 'Product added successfully', data: newProduct });
+    res.status(201).json({ success: true, message: 'Product added successfully', data: newProduct });
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Failed to add product' });
+    console.error("Error creating product:", err);
+    res.status(500).json({ success: false, message: 'Failed to add product', error: err.message });
   }
 };
+
+// Get a single product by ID
 const getSingleProduct = async (req, res) => {
   const { productId } = req.params;
 
@@ -37,16 +48,45 @@ const getSingleProduct = async (req, res) => {
     if (!product) {
       return res.status(404).json({ success: false, message: "Product not found" });
     }
-
-    res.json(product);
+    res.json({ success: true, data: product }); // Consistent response format
   } catch (err) {
-    res.status(500).json({ success: false, message: "Something went wrong" });
+    console.error("Error getting single product:", err);
+    // Handle invalid ObjectId format gracefully
+    if (err.name === 'CastError') {
+        return res.status(400).json({ success: false, message: "Invalid product ID format." });
+    }
+    res.status(500).json({ success: false, message: "Something went wrong", error: err.message });
   }
 };
 
-// Export functions properly
+// Search products by name or category
+const searchProducts = async (req, res) => {
+  const { query } = req.query; // Expecting the query parameter to be named 'query'
+  console.log(`Received search request with query: "${query}"`); // Log the received query
+
+  if (!query || query.trim() === '') {
+    return res.status(400).json({ success: false, message: "Query parameter is required and cannot be empty." });
+  }
+
+  try {
+    const products = await Product.find({
+      $or: [
+        { name: { $regex: query, $options: "i" } },     // Case-insensitive search on 'name'
+        { category: { $regex: query, $options: "i" } } // Case-insensitive search on 'category'
+      ]
+    });
+    console.log(`Found ${products.length} products for query: "${query}"`); // Log number of products found
+    res.json({ success: true, products: products }); // Ensure consistent key 'products'
+  } catch (err) {
+    console.error("Search error:", err); // Keep this crucial logging
+    res.status(500).json({ success: false, message: "Search failed", error: err.message });
+  }
+};
+
+// --- Export all product-related functions ---
 module.exports = {
   getAllProducts,
   createProduct,
-  getSingleProduct
+  getSingleProduct,
+  searchProducts
 };
