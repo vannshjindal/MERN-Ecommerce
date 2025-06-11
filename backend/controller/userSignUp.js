@@ -5,14 +5,14 @@ async function userSignUpController(req, res) {
    
     try {
         const { email, phoneNumber, password, name } = req.body;
-        let profilePicture = req.body.profilePicture || null; // Default null
+        let profilePicture = req.body.profilePicture || null; 
 
-        // ✅ Check if the profile picture is coming from a file upload
+      
         if (req.file) {
-            profilePicture = req.file.path; // Assuming Multer stores file path
+            profilePicture = req.file.path; 
         }
 
-        // 🔹 Ensure either email or phone number is provided
+   
         if (!email && !phoneNumber) {
             throw new Error("Please provide an email or phone number");
         }
@@ -23,7 +23,6 @@ async function userSignUpController(req, res) {
             throw new Error("Please provide a name");
         }
 
-        // 🔹 Check if user already exists with the same email or phone number
         const existingUser = await userModel.findOne({ 
             $or: [{ email }, { phoneNumber }] 
         });
@@ -35,7 +34,7 @@ async function userSignUpController(req, res) {
             });
         }
 
-        // 🔹 Hash the password
+   
         const salt = bcrypt.genSaltSync(10);
         const hashPassword = bcrypt.hashSync(password, salt);
 
@@ -43,17 +42,16 @@ async function userSignUpController(req, res) {
             throw new Error("Something went wrong while hashing the password");
         }
 
-        // ✅ Prepare user data
         const userData = new userModel({
             name,
             email: email || null,
             phoneNumber: phoneNumber || null,
             password: hashPassword,
-            profilePicture, // ✅ Store profile picture (either URL or file path)
+            profilePicture, 
             role: "GENERAL"
         });
 
-        // 🔹 Save user to database
+   
         const savedUser = await userData.save();
 
         res.status(201).json({
