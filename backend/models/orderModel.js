@@ -3,14 +3,14 @@ const mongoose = require('mongoose');
 const orderSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Assuming you have a User model
+    ref: 'User', 
     required: true,
   },
   items: [
     {
       productId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product', // Assuming you have a Product model
+        ref: 'Product', 
         required: true,
       },
       name: {
@@ -26,7 +26,7 @@ const orderSchema = new mongoose.Schema({
         type: Number,
         required: true,
       },
-      // You might want to include other relevant product details here
+      
     },
   ],
   shippingAddress: {
@@ -45,17 +45,17 @@ const orderSchema = new mongoose.Schema({
   },
   paymentMethod: {
     type: String,
-    enum: ['Cash on Delivery', 'Razorpay', /* Add other payment methods */],
+    enum: ['Cash on Delivery', 'Razorpay', ],
     required: true,
   },
   paymentDetails: {
-    // Store details specific to the payment method (e.g., Razorpay order ID, payment ID)
+    
     razorpayOrderId: { type: String },
     razorpayPaymentId: { type: String },
-    signature: { type: String }, // For Razorpay signature verification
-    // ... other payment-related fields
+    signature: { type: String }, 
+   
   },
-  orderId: { // Your internal order ID (e.g., COD-timestamp)
+  orderId: { 
     type: String,
     unique: true,
   },
