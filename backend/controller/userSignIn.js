@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 async function userSignInController(req, res) {
     try {
-        const { identifier, password } = req.body; // Accepting either email or phone number
+        const { identifier, password } = req.body; 
 
         if (!identifier) {
             return res.status(400).json({ message: "Please provide an email or phone number", error: true, success: false });
@@ -13,7 +13,7 @@ async function userSignInController(req, res) {
             return res.status(400).json({ message: "Please provide a password", error: true, success: false });
         }
 
-        // Find user by email or phone number
+     
         const user = await userModel.findOne({
             $or: [{ email: identifier }, { phoneNumber: identifier }]
         });
@@ -22,13 +22,13 @@ async function userSignInController(req, res) {
             return res.status(400).json({ message: "User not found", error: true, success: false });
         }
 
-        // Compare password
+       
         const checkPassword = await bcrypt.compare(password, user.password);
         if (!checkPassword) {
             return res.status(400).json({ message: "Invalid credentials. Please check your password.", error: true, success: false });
         }
 
-        // Create token
+       
         const tokenData = {
             _id: user._id,
             email: user.email,
@@ -41,14 +41,14 @@ async function userSignInController(req, res) {
             secure: process.env.NODE_ENV === "production"
         };
 
-        // Set cookie and send response
+        
         res.cookie("token", token, tokenOption).status(200).json({
             message: "Login successful",
             success: true,
             error: false,
-            token: token, // 🔹 Include token separately
+            token: token, 
             data: {
-                _id: user._id, // ✅ Include user details
+                _id: user._id, 
                 name: user.name,
                 email: user.email,
                 phoneNumber: user.phoneNumber,
