@@ -1,10 +1,7 @@
 const Cart = require("../models/cart");
 
-// ✅ Get Cart
 const getCart = async (req, res) => {
   const { userId } = req.params;
-
-  console.log("Fetching cart for user:", userId);
 
   if (!userId) {
     return res.status(400).json({ success: false, message: "User ID is required" });
@@ -17,15 +14,12 @@ const getCart = async (req, res) => {
       return res.status(404).json({ success: false, message: "Cart not found" });
     }
 
-    console.log("Cart fetched:", cart);
     res.json({ success: true, cart });
   } catch (error) {
-    console.error("Error fetching cart:", error);
     res.status(500).json({ success: false, message: "Failed to fetch cart", error: error.message });
   }
 };
 
-// ✅ Add to Cart
 const addToCart = async (req, res) => {
   const { userId, productId, quantity } = req.body;
 
@@ -48,18 +42,15 @@ const addToCart = async (req, res) => {
     }
 
     await cart.save();
-    await cart.populate("items.productId"); // ✅ populate product data
+    await cart.populate("items.productId");
 
     res.json({ success: true, message: "Product added to cart", cart });
   } catch (error) {
-    console.error("Error adding product to cart:", error);
     res.status(500).json({ success: false, message: "Failed to add product to cart", error: error.message });
   }
 };
 
-// ✅ Update Cart Item
 const updateCartItem = async (req, res) => {
-  console.log("🛠️ updateCartItem called with:", req.body);
   const { userId, productId, quantity } = req.body;
 
   try {
@@ -71,7 +62,7 @@ const updateCartItem = async (req, res) => {
 
     item.quantity = quantity;
     await cart.save();
-    await cart.populate("items.productId"); // ✅ populate product data
+    await cart.populate("items.productId");
 
     res.json({ success: true, message: "Cart updated", cart });
   } catch (err) {
@@ -79,9 +70,8 @@ const updateCartItem = async (req, res) => {
   }
 };
 
-// ✅ Remove from Cart
 const removeFromCart = async (req, res) => {
-  const { userId, productId } = req.params; // 👈 use params instead of body
+  const { userId, productId } = req.params;
 
   try {
     const cart = await Cart.findOne({ userId });
@@ -92,7 +82,6 @@ const removeFromCart = async (req, res) => {
       });
     }
 
-    // Remove item from cart
     cart.items = cart.items.filter(
       (item) => item.productId.toString() !== productId
     );
@@ -106,7 +95,6 @@ const removeFromCart = async (req, res) => {
       cart,
     });
   } catch (err) {
-    console.error("RemoveFromCart Error:", err);
     res.status(500).json({
       success: false,
       message: "Failed to remove product",
@@ -114,7 +102,6 @@ const removeFromCart = async (req, res) => {
   }
 };
 
-// ✅ Clear Cart
 const clearCart = async (req, res) => {
   const { userId } = req.body;
 
@@ -122,12 +109,11 @@ const clearCart = async (req, res) => {
     const cart = await Cart.findOne({ userId });
     if (!cart) return res.status(404).json({ success: false, message: "Cart not found" });
 
-    cart.items = []; // clear all items
+    cart.items = [];
     await cart.save();
 
     res.json({ success: true, message: "Cart cleared", cart });
   } catch (err) {
-    console.error("❌ Error clearing cart:", err);
     res.status(500).json({ success: false, message: "Failed to clear cart" });
   }
 };
