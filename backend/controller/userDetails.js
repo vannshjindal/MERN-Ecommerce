@@ -31,7 +31,7 @@ async function getUserDetails(req, res) {
 
 async function getAllUsers(req, res) {
     try {
-        const users = await userModel.find({}, "-password");  // Exclude passwords
+        const users = await userModel.find({}, "-password");  
         res.status(200).json({
             data: users,
             success: true,
@@ -46,7 +46,7 @@ async function getAllUsers(req, res) {
     }
 }
 
-// Update Profile Picture
+
 async function updateProfilePicture(req, res) {
     try {
       const { userId } = req.params;
@@ -57,13 +57,13 @@ async function updateProfilePicture(req, res) {
   
     
   
-      // Get the relative path
+    
       const relativePath = path.relative(path.join(__dirname, '../uploads'), req.file.path).replace(/\\/g, '/');
       console.log("Calculated Relative Path:", relativePath);
   
       const user = await userModel.findByIdAndUpdate(
         userId,
-        { profilePicture: relativePath }, // Save the relative path
+        { profilePicture: relativePath }, 
         { new: true }
       );
   
@@ -74,7 +74,7 @@ async function updateProfilePicture(req, res) {
       res.status(200).json({
         success: true,
         message: "Profile picture updated successfully",
-        profilePicture: user.profilePicture // Send back the updated relative path
+        profilePicture: user.profilePicture 
       });
   
     } catch (err) {
