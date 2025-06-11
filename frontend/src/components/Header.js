@@ -87,7 +87,7 @@ const Header = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  // Close dropdown and mobile menu on outside click
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -101,7 +101,7 @@ const Header = () => {
     };
   }, [dropdownRef]);
 
-  // Close mobile menu on escape key
+
   useEffect(() => {
     const handleEscape = (event) => {
       if (event.key === 'Escape') {
@@ -124,14 +124,14 @@ const Header = () => {
     <>
       <header className="h-16 lg:h-18 shadow-lg bg-white/95 backdrop-blur-sm fixed w-full z-50 border-b border-gray-100">
         <div className="h-full container mx-auto flex items-center px-4 lg:px-6 justify-between">
-          {/* Logo */}
+          
           <div className="flex items-center">
             <Link to={"/"} className="flex items-center hover:opacity-80 transition-opacity">
               <Logo w={90} h={100} />
             </Link>
           </div>
 
-          {/* Desktop Search Bar */}
+         
           <div className="hidden md:flex flex-1 max-w-2xl mx-8">
             <div className={`flex items-center w-full bg-gray-50 rounded-full border-2 transition-all duration-300 ${
               isSearchFocused ? 'border-red-500 shadow-lg bg-white' : 'border-transparent hover:border-gray-200'
@@ -164,29 +164,16 @@ const Header = () => {
             </div>
           </div>
 
-          {/* Desktop Navigation */}
+         
           <div className="hidden lg:flex items-center gap-6">
-            {/* Greeting */}
+           
             <div className="text-sm font-medium text-gray-600 hidden xl:block">
               {greeting}
             </div>
 
-            {/* Navigation Icons */}
+            
             <div className="flex items-center gap-4">
-              {/* Notifications
-              <button className="relative p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-full transition-all duration-300">
-                <HiOutlineBell className="text-xl" />
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
-                  3
-                </span>
-              </button> */}
-
-              {/* Wishlist */}
-              {/* <button className="relative p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-full transition-all duration-300">
-                <HiOutlineHeart className="text-xl" />
-              </button> */}
-
-              {/* Cart */}
+              
               <Link 
                 to="/cart"
                 className="relative p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-full transition-all duration-300 group"
@@ -199,7 +186,7 @@ const Header = () => {
                 )}
               </Link>
 
-              {/* Profile */}
+              
               <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={toggleDropdown}
@@ -220,12 +207,12 @@ const Header = () => {
                   )}
                 </button>
 
-                {/* Enhanced Dropdown Menu */}
+               
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-72 bg-white shadow-xl rounded-xl overflow-hidden z-50 transform origin-top-right transition-all duration-200 ease-out border border-gray-100">
                     {user ? (
                       <>
-                        {/* User Info Section */}
+                     
                         <div className="px-6 py-4 bg-gradient-to-r from-red-50 to-pink-50 border-b border-gray-100">
                           <div className="flex items-center">
                             {profilePicURL ? (
@@ -249,7 +236,7 @@ const Header = () => {
                           </div>
                         </div>
                         
-                        {/* Menu Items */}
+                     
                         <div className="py-2">
                           <Link
                             to="/myprofile"
@@ -295,7 +282,7 @@ const Header = () => {
             </div>
           </div>
 
-          {/* Mobile Menu Button */}
+         
           <div className="lg:hidden flex items-center gap-3">
             <Link 
               to="/cart"
@@ -320,14 +307,14 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Mobile Menu Overlay */}
+     
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-40 lg:hidden">
           <div className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" onClick={toggleMobileMenu}></div>
           
           <div className="fixed top-16 right-0 w-80 max-w-[90vw] h-[calc(100vh-4rem)] bg-white shadow-2xl transform transition-transform duration-300 ease-out overflow-y-auto">
             <div className="p-6">
-              {/* Mobile Search */}
+             
               <div className="mb-6">
                 <div className="flex items-center bg-gray-50 rounded-full border-2 border-transparent focus-within:border-red-500 focus-within:bg-white transition-all duration-300">
                   <input
@@ -355,7 +342,7 @@ const Header = () => {
                 </div>
               </div>
 
-              {/* Mobile User Section */}
+             
               {user ? (
                 <div className="mb-6 p-4 bg-gradient-to-r from-red-50 to-pink-50 rounded-xl">
                   <div className="flex items-center mb-4">
@@ -414,29 +401,6 @@ const Header = () => {
                 </div>
               )}
 
-              {/* Mobile Navigation Links */}
-              {/* <div className="space-y-2">
-                <Link
-                  to="/wishlist"
-                  className="flex items-center py-3 px-4 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <HiOutlineHeart className="mr-3 text-xl" />
-                  <span>Wishlist</span>
-                </Link>
-                
-                <Link
-                  to="/notifications"
-                  className="flex items-center py-3 px-4 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <HiOutlineBell className="mr-3 text-xl" />
-                  <span>Notifications</span>
-                  <span className="ml-auto bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
-                    3
-                  </span>
-                </Link>
-              </div> */}
             </div>
           </div>
         </div>
