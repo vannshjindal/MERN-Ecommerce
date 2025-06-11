@@ -6,8 +6,8 @@ import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
 import ForgotPassword from "../pages/ForgotPassword";
 import Cart from "../pages/cart";
-import MyProfile from "../pages/MyProfile";   // ✅ Import MyProfile page
-import ProtectedRoute from "./protectedRoutes"; // ✅ Ensure protected routes are used properly
+import MyProfile from "../pages/MyProfile";   
+import ProtectedRoute from "./protectedRoutes"; 
 import ProductDetails from "../pages/ProductDetails";
 import Checkout from "../pages/Checkout";
 import OrderConfirmation from "../pages/OrderConfirmation";
