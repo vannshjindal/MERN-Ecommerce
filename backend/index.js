@@ -28,7 +28,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use("/api",router)
 app.use((req, res, next) => {
-    console.log(`📥 ${req.method} ${req.originalUrl}`);
+    console.log(`${req.method} ${req.originalUrl}`);
     next();
   });
   
