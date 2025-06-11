@@ -11,7 +11,7 @@ const SearchResults = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Define your backend URL here (or import from a config file)
+  
   const backendURL = 'http://localhost:8080';
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const SearchResults = () => {
     fetchSearchResults();
   }, [query]);
 
-  // Loading skeleton component
+  
   const LoadingSkeleton = () => (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {[...Array(8)].map((_, index) => (
@@ -73,7 +73,7 @@ const SearchResults = () => {
     </div>
   );
 
-  // Error component
+  
   const ErrorState = ({ error }) => (
     <div className="flex flex-col items-center justify-center py-12 px-4">
       <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md w-full text-center">
@@ -94,7 +94,7 @@ const SearchResults = () => {
     </div>
   );
 
-  // Empty state component
+  
   const EmptyState = ({ query }) => (
     <div className="flex flex-col items-center justify-center py-12 px-4">
       <div className="text-center max-w-md">
@@ -114,7 +114,7 @@ const SearchResults = () => {
     </div>
   );
 
-  // Product card component
+  
   const ProductCard = ({ product }) => (
     <div className="group bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg hover:border-gray-200 transition-all duration-300 cursor-pointer">
       <div className="relative overflow-hidden">
@@ -181,7 +181,7 @@ const SearchResults = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header Section */}
+    
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
@@ -213,7 +213,7 @@ const SearchResults = () => {
         </div>
       </div>
 
-      {/* Main Content */}
+     
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {loading && <LoadingSkeleton />}
         
