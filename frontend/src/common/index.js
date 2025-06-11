@@ -46,10 +46,10 @@ const SummaryApi = {
     method: "put",
   }),
   get_order_details: (orderId) => ({
-    url: `${backendDomain}/api/orders/${orderId}`, // Replace with your actual API endpoint for fetching order details
+    url: `${backendDomain}/api/orders/${orderId}`, 
     method: "GET",
   }),
-  create_cod_order: { // Add this
+  create_cod_order: { 
     url: `${backendDomain}/api/orders/cod`,
     method: "post",
   },
