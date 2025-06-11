@@ -21,7 +21,7 @@ const ProductDetails = () => {
           const data = await res.json();
       
           if (data.success) {
-            setProduct(data.data); // Assuming API returns { success: true, data: {...product} }
+            setProduct(data.data); 
           } else {
             console.error("Failed to fetch product:", data.message);
           }
