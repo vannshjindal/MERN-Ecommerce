@@ -1,8 +1,5 @@
-// File: controllers/productController.js
+const Product = require('../models/product'); 
 
-const Product = require('../models/product'); // Make sure this path to your Product Mongoose model is correct
-
-// Fetch all products
 const getAllProducts = async (req, res) => {
   try {
     const products = await Product.find();
@@ -13,11 +10,11 @@ const getAllProducts = async (req, res) => {
   }
 };
 
-// Add a new product
+
 const createProduct = async (req, res) => {
   const { name, description, price, image, category } = req.body;
 
-  // Basic validation (you might want more robust validation)
+  
   if (!name || !price || !description || !image || !category) {
     return res.status(400).json({ success: false, message: "All product fields are required." });
   }
@@ -39,7 +36,7 @@ const createProduct = async (req, res) => {
   }
 };
 
-// Get a single product by ID
+
 const getSingleProduct = async (req, res) => {
   const { productId } = req.params;
 
@@ -48,10 +45,10 @@ const getSingleProduct = async (req, res) => {
     if (!product) {
       return res.status(404).json({ success: false, message: "Product not found" });
     }
-    res.json({ success: true, data: product }); // Consistent response format
+    res.json({ success: true, data: product }); 
   } catch (err) {
     console.error("Error getting single product:", err);
-    // Handle invalid ObjectId format gracefully
+   
     if (err.name === 'CastError') {
         return res.status(400).json({ success: false, message: "Invalid product ID format." });
     }
@@ -59,10 +56,10 @@ const getSingleProduct = async (req, res) => {
   }
 };
 
-// Search products by name or category
+
 const searchProducts = async (req, res) => {
-  const { query } = req.query; // Expecting the query parameter to be named 'query'
-  console.log(`Received search request with query: "${query}"`); // Log the received query
+  const { query } = req.query; 
+  console.log(`Received search request with query: "${query}"`); 
 
   if (!query || query.trim() === '') {
     return res.status(400).json({ success: false, message: "Query parameter is required and cannot be empty." });
@@ -71,19 +68,17 @@ const searchProducts = async (req, res) => {
   try {
     const products = await Product.find({
       $or: [
-        { name: { $regex: query, $options: "i" } },     // Case-insensitive search on 'name'
-        { category: { $regex: query, $options: "i" } } // Case-insensitive search on 'category'
+        { name: { $regex: query, $options: "i" } },     
+        { category: { $regex: query, $options: "i" } } 
       ]
     });
-    console.log(`Found ${products.length} products for query: "${query}"`); // Log number of products found
-    res.json({ success: true, products: products }); // Ensure consistent key 'products'
+    console.log(`Found ${products.length} products for query: "${query}"`); 
+    res.json({ success: true, products: products }); 
   } catch (err) {
-    console.error("Search error:", err); // Keep this crucial logging
+    console.error("Search error:", err); 
     res.status(500).json({ success: false, message: "Search failed", error: err.message });
   }
 };
-
-// --- Export all product-related functions ---
 module.exports = {
   getAllProducts,
   createProduct,
