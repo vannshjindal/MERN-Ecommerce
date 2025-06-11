@@ -1,67 +1,7 @@
-// import React from "react";
-// import { useSelector } from "react-redux";
-// import { useLocation } from "react-router-dom";
-
-// const OrderConfirmation = () => {
-//   const user = useSelector((state) => state.user.user); // Assuming user info is here
-//   const cartItems = useSelector((state) => state.cart.items);
-//   const total = useSelector((state) => state.cart.totalPrice);
-//   const location = useLocation();
-
-//   // Assuming orderId is passed via navigate('/order-confirmation', { state: { orderId: "123" } });
-//   const { orderId } = location.state || {};
-
-//   return (
-//     <div className="max-w-4xl mx-auto p-6">
-//       <div className="bg-white shadow-md rounded-2xl p-6">
-//         <h2 className="text-3xl font-bold text-green-600 mb-4">🎉 Order Successful!</h2>
-//         <p className="text-gray-600 mb-6">Thank you for your purchase. Your order has been placed successfully.</p>
-
-//         <div className="mb-6">
-//           <h3 className="text-xl font-semibold mb-2">📦 Order ID:</h3>
-//           <p className="text-gray-800">{orderId || "N/A"}</p>
-//         </div>
-
-//         <div className="grid md:grid-cols-2 gap-6 mb-6">
-//           <div>
-//             <h3 className="text-xl font-semibold mb-2">👤 Customer Details</h3>
-//             <p><strong>Name:</strong> {user?.name}</p>
-//             <p><strong>Email:</strong> {user?.email}</p>
-//             <p><strong>Phone:</strong> {user?.phone}</p>
-//           </div>
-
-//           <div>
-//             <h3 className="text-xl font-semibold mb-2">💳 Payment Details</h3>
-//             <p><strong>Payment Status:</strong> Paid</p>
-//             <p><strong>Payment Mode:</strong> Razorpay</p>
-//           </div>
-//         </div>
-
-//         <div>
-//           <h3 className="text-xl font-semibold mb-4">🛍️ Order Summary</h3>
-//           <div className="space-y-4">
-//             {cartItems.map((item) => (
-//               <div key={item._id} className="flex justify-between border-b pb-2">
-//                 <span>{item.name} x {item.quantity}</span>
-//                 <span>₹{item.price * item.quantity}</span>
-//               </div>
-//             ))}
-//             <div className="flex justify-between font-bold text-lg pt-4">
-//               <span>Total:</span>
-//               <span>₹{total}</span>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default OrderConfirmation;
 import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { FaCheckCircle } from 'react-icons/fa';
-import SummaryApi from '../common/index'; // Assuming you have this
+import SummaryApi from '../common/index'; 
 
 const OrderSuccessPage = () => {
   const [searchParams] = useSearchParams();
@@ -90,7 +30,7 @@ const OrderSuccessPage = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      setOrderData(data.data); // Assuming your backend returns the order data in a 'data' field
+      setOrderData(data.data); 
       setLoading(false);
     } catch (err) {
       setError(err.message);
